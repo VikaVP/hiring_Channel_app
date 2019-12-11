@@ -1,7 +1,11 @@
 require('dotenv/config')
 const JWT = require('jsonwebtoken')
+const conn = require('../config/db')
 module.exports = {
     Check: (req, res, next) => {
+        const rows = conn.query('SELECT username, password from account')
+        console.log(rows);
+
         const { authorization, email, id } = req.headers
         if (!authorization || !email || !id) {
             return res.status(404).json({
@@ -23,8 +27,7 @@ module.exports = {
             if (email !== decoded.email || parseInt(id) !== decoded.id) {
 
                 return res.status(403).json({
-                    message: 'Token not valid for selected id/email',
-                    message2: "hmm"
+                    message: 'Token not valid for selected id/email'
                 })
 
             }

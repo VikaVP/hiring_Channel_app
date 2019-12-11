@@ -1,7 +1,7 @@
 require('dotenv/config')
 const express = require('express')
 const JWT = require('jsonwebtoken')
-
+const conn = require('../config/db')
 const Route = express.Router()
 const auth = require('../helpers/auth')
 Route.post('/login', (req, res) => {
