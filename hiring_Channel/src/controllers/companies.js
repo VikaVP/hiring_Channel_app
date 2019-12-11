@@ -16,8 +16,8 @@ module.exports = {
     },
     postCompanies: (req, res) => {
         const Logo = '/images/' + req.file.filename
-        const { Name, Location, Description } = req.body
-        const data = { Name, Logo, Location, Description }
+        const { Name, Location, Description, email } = req.body
+        const data = { Name, Logo, Location, Description, email }
         companiesModel.addCompanies(data)
             .then(result => {
                 res.status(200).json({
@@ -53,9 +53,9 @@ module.exports = {
     updateCompanies: (req, res) => {
         const Logo = '/images/' + req.file.filename
         const company_id = req.params.id
-        const { id, Name, Location, Description } = req.body
+        const { id, Name, Location, Description, email } = req.body
         const data = {
-            id, Name, Logo, Location, Description
+            id, Name, Logo, Location, Description, email
         }
         companiesModel.updateCompany(data, company_id)
             .then(result => {
