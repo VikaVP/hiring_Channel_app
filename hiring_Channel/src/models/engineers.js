@@ -62,12 +62,35 @@ module.exports = {
         })
     },
     readAllSortBy: (field) => {
-        console.log(field);
         return new Promise((resolve, reject) => {
             conn.query(`SELECT * FROM engineerData ORDER BY ${field} LIMIT 10`, (err, result) => {
                 if (err) reject(err)
                 resolve(result)
             })
+        })
+    },
+    page: (page) => {
+        return new Promise((resolve, reject) => {
+            const limit = 1
+            conn.query(`SELECT COUNT(id) AS total FROM engineerData`, (err, total) => {
+                if (total[0].total <= limit) {
+                    if (Number(page) > 1) {
+                        resolve(total[0].total)
+                    } else {
+                        conn.query(`SELECT * FROM engineerData ORDER BY id LIMIT ${limit} OFFSET ${(Number(page) * limit) - limit}`, (err, result) => {
+                            if (err) reject(err)
+                            resolve(result)
+                        })
+                    }
+                } else {
+                    conn.query(`SELECT * FROM engineerData ORDER BY id LIMIT ${limit} OFFSET ${(Number(page) * limit) - limit}`, (err, result) => {
+                        if (err) reject(err)
+                        resolve(result)
+                    })
+                }
+            })
+
+
         })
     }
 }

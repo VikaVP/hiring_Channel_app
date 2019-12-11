@@ -94,9 +94,6 @@ module.exports = {
             })
     },
     sort: (req, res) => {
-        console.log(req.params);
-        console.log(req.query);
-
         engineersModel.readAllSortBy(req.params.sort)
             .then(result => {
                 res.status(200).json({
@@ -112,6 +109,42 @@ module.exports = {
                     status: 400,
                     error: true,
                     message: 'Error sort engineer'
+                })
+            })
+    },
+    page: (req, res) => {
+        engineersModel.page(req.params.page)
+            .then(result => {
+                if (typeof (result) === 'number') {
+                    res.status(400).json({
+                        status: 400,
+                        error: true,
+                        message: 'oops there is no page again'
+                    })
+                } else {
+                    if (result.length === 0) {
+                        res.status(400).json({
+                            status: 400,
+                            error: true,
+                            message: 'oops there is no page again'
+                        })
+                    } else {
+                        res.status(200).json({
+                            status: 200,
+                            error: false,
+                            result,
+                            message: 'Engineers data in mode pagination'
+                        })
+                    }
+
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(400).json({
+                    status: 400,
+                    error: true,
+                    message: 'Error pagination engineers data'
                 })
             })
     }

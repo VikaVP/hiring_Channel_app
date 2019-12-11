@@ -9,5 +9,6 @@ Route
     .put('/:id', engineers.updateEngineering)
     .delete('/:id', engineers.deleteEngineer)
     .get('/sort/:sort', engineers.sort)
+    .get('/page/:page', engineers.page)
 
 module.exports = Route
