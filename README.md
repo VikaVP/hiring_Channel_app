@@ -1,5 +1,5 @@
 # hiring_Channel_app
-Express Boilerplate
+Express hiring_Channel_app
 Table of Contents
 
     Introduction
