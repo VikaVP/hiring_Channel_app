@@ -14,7 +14,8 @@ Table of Contents
 
 Introduction
 
-Express Boilerplate is packed with bunch of feature you can use for developing your app. Feel free to use and bought me beer later. Cheers.
+Express hiring_Channel_app is packed with bunch of feature you can use for developing your app. Feel free to use and bought me beer later. Cheers.
+
 Prerequiste
 
     Node.js - Download and Install Node.js - Simple bash script to manage multiple active node.js versions.
@@ -58,4 +59,4 @@ Other Dependencies
 
 License
 
-Vika VP
+by Vika VP
