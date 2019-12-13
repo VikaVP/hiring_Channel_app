@@ -3,11 +3,11 @@ const Route = express.Router()
 
 const engineers = require('./routes/engineers')
 const companies = require('./routes/companies')
-const login = require('./routes/auth')
+const login = require('./routes/login')
 
 Route
-    .use('/engineers', engineers)
-    .use('/companies', companies)
-    .use('/', login)
+  .use('/', login)
+  .use('/engineers', engineers)
+  .use('/companies', companies)
 
 module.exports = Route

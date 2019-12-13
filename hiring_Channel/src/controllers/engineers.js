@@ -1,18 +1,33 @@
 const engineersModel = require('../models/engineers')
+const misc = require('../helpers/misc')
 module.exports = {
     getAll: (req, res) => {
-        const search = req.query.search
-        engineersModel.getEngineers(search)
+        const s = req.query.s ? req.query.s : '' // to get query params '?'
+        const page = req.query.page ? req.query.page : 1
+        const limit = req.query.limit ? req.query.limit : 10
+        const sort = req.query.sort ? req.query.sort : 'DESC'
+        const sortBy = req.query.sortBy ? req.query.sortBy : 'date_Update'
+        const prevPage = parseInt(page) === 1 ? 1 : parseInt(page) - 1
+        const nextPage = parseInt(page) + 1
+        const pageDetail = {
+            search: s,
+            page,
+            limit,
+            sort,
+            sortBy,
+            prevLink: `http://localhost:3000/${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
+            nextLink: `http://localhost:3000/${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+        }
+        // set key for redis
+        // const key = `get-jobs-all-${s}-${page}-${limit}-${sort}-${sortBy}`
+        // call redis for selected key
+        engineersModel.getEngineers(s, page, limit, sort, sortBy)
             .then(result => {
-                res.json(result)
+                return misc.responsePagination(res, 200, false, 'Success get all Jobs', pageDetail, result)
             })
             .catch(err => {
                 console.log(err)
-                res.status(400).json({
-                    status: 400,
-                    error: true,
-                    message: 'Error get all engineers'
-                })
+                return misc.response(res, 400, true, 'Error get all engineers')
             })
     },
     postEngineers: (req, res) => {
@@ -52,9 +67,10 @@ module.exports = {
     },
     updateEngineering: (req, res) => {
         const engineer_id = req.params.id
-        const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email } = req.body
+        const dateUpdate = Date.now()
+        const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, email } = req.body
         const data = {
-            id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email
+            id, Name, Description, Skill, Location, DOB, Showcase, Date_created, dateUpdate, email
         }
         engineersModel.updateEngineer(data, engineer_id)
             .then(result => {
@@ -90,61 +106,6 @@ module.exports = {
                     status: 400,
                     error: true,
                     message: 'Error delete engineer'
-                })
-            })
-    },
-    sort: (req, res) => {
-        engineersModel.readAllSortBy(req.params.sort)
-            .then(result => {
-                res.status(200).json({
-                    status: 200,
-                    error: false,
-                    result,
-                    message: 'Success sort engineer'
-                })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(400).json({
-                    status: 400,
-                    error: true,
-                    message: 'Error sort engineer'
-                })
-            })
-    },
-    page: (req, res) => {
-        engineersModel.page(req.params.page)
-            .then(result => {
-                if (typeof (result) === 'number') {
-                    res.status(400).json({
-                        status: 400,
-                        error: true,
-                        message: 'oops there is no page again'
-                    })
-                } else {
-                    if (result.length === 0) {
-                        res.status(400).json({
-                            status: 400,
-                            error: true,
-                            message: 'oops there is no page again'
-                        })
-                    } else {
-                        res.status(200).json({
-                            status: 200,
-                            error: false,
-                            result,
-                            message: 'Engineers data in mode pagination'
-                        })
-                    }
-
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(400).json({
-                    status: 400,
-                    error: true,
-                    message: 'Error pagination engineers data'
                 })
             })
     }

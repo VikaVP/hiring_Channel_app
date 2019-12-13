@@ -1,13 +1,11 @@
 require('dotenv/config')
 const express = require('express')
 const JWT = require('jsonwebtoken')
-const conn = require('../config/db')
 const Route = express.Router()
 const auth = require('../helpers/auth')
 Route.post('/login', (req, res) => {
-
     const { email, password } = req.body
-    const id = 1993799999
+    const id = 123
     const token = JWT.sign(
         {
             email,
@@ -15,7 +13,7 @@ Route.post('/login', (req, res) => {
         },
         process.env.SECRET_KEY,
         {
-            expiresIn: '5'
+            expiresIn: '24h'
         }
     )
     res.status(201).json({
