@@ -31,8 +31,9 @@ module.exports = {
             })
     },
     postEngineers: (req, res) => {
+        const Photo = '/images/' + req.file.filename
         const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email, expected_salary } = req.body
-        const data = { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email, expected_salary }
+        const data = { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email, expected_salary, Photo }
         engineersModel.addEngineers(data)
             .then(result => {
                 res.status(200).json({
@@ -66,11 +67,12 @@ module.exports = {
             })
     },
     updateEngineering: (req, res) => {
+        const Photo = '/images/' + req.file.filename
         const engineer_id = req.params.id
         const dateUpdate = Date.now()
         const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, email, expected_salary } = req.body
         const data = {
-            id, Name, Description, Skill, Location, DOB, Showcase, Date_created, dateUpdate, email, expected_salary
+            id, Name, Description, Skill, Location, DOB, Showcase, Date_created, dateUpdate, email, expected_salary, Photo
         }
         engineersModel.updateEngineer(data, engineer_id)
             .then(result => {

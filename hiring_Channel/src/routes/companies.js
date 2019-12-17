@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
       filetype = 'jpg'
     }
     cb(null, 'image-' + Date.now() + '.' + filetype)
+
   }
 })
 const upload = multer({

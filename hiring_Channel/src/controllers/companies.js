@@ -11,6 +11,7 @@ module.exports = {
           status: 400,
           error: true,
           message: 'Error get all companies'
+
         })
       })
   },
