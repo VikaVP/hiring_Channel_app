@@ -29,10 +29,11 @@ const upload = multer({
   }
 })
 Route
-  .get('/', auth.Check, engineers.getAll)
-  .post('/', (upload.single('Logo')), engineers.postEngineers)
+  .get('/',  engineers.getAll)
+  .post('/', (upload.single('Photo')), engineers.postEngineers)
   .get('/:id', engineers.getById)
-  .put('/:id', (upload.single('Logo')), engineers.updateEngineering)
+  .put('/:id', (upload.single('Photo')), engineers.updateEngineering)
   .delete('/:id', engineers.deleteEngineer)
 
 module.exports = Route
+//auth.Check

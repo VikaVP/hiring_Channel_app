@@ -7,17 +7,21 @@ module.exports = {
         const limit = req.query.limit ? req.query.limit : 10
         const sort = req.query.sort ? req.query.sort : 'DESC'
         const sortBy = req.query.sortBy ? req.query.sortBy : 'date_Update'
-        const prevPage = parseInt(page) === 1 ? 1 : parseInt(page) - 1
-        const nextPage = parseInt(page) + 1
+        let prevPage = parseInt(page) === 1 ? 1 : parseInt(page) - 1
+        let nextPage = parseInt(page) + 1
+
         const pageDetail = {
             search: s,
             page,
             limit,
             sort,
             sortBy,
-            prevLink: `http://localhost:3000/${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
-            nextLink: `http://localhost:3000/${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+            prevLink: `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
+            nextLink: req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') === -1 ?
+                `http://localhost:3003${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `http://localhost:3003${req.originalUrl + "&page=" + parseInt(nextPage)}` : `http://localhost:3000${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+
         }
+        //`http://localhost:3000${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
         // set key for redis
         // const key = `get-jobs-all-${s}-${page}-${limit}-${sort}-${sortBy}`
         // call redis for selected key
@@ -69,10 +73,10 @@ module.exports = {
     updateEngineering: (req, res) => {
         const Photo = '/images/' + req.file.filename
         const engineer_id = req.params.id
-        const dateUpdate = Date.now()
+        const date_update = new Date()
         const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, email, expected_salary } = req.body
         const data = {
-            id, Name, Description, Skill, Location, DOB, Showcase, Date_created, dateUpdate, email, expected_salary, Photo
+            id, Name, Description, Skill, Location, DOB, Showcase, Date_created, date_update, email, expected_salary, Photo
         }
         engineersModel.updateEngineer(data, engineer_id)
             .then(result => {
