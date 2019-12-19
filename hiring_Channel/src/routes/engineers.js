@@ -15,10 +15,12 @@ const storage = multer.diskStorage({
     if (file.mimetype === 'image/png') {
       filetype = 'png'
     }
-    if (file.mimetype === 'image/jpg') {
+    if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
       filetype = 'jpg'
     }
-    cb(null, 'image-' + Date.now() + '.' + filetype)
+console.log(file.mimetype)
+date = new Date()
+    cb(null, 'image-' + date.getHours() + date.getMinutes() + date.getSeconds()+ '.' + filetype)
 
   }
 })

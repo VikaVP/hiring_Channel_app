@@ -27,6 +27,9 @@ module.exports = {
         // call redis for selected key
         engineersModel.getEngineers(s, page, limit, sort, sortBy)
             .then(result => {
+                result.forEach((element, index) => {
+                    result[index].Photo = 'http://localhost:3003' + element.Photo
+                })
                 return misc.responsePagination(res, 200, false, 'Success get all Jobs', pageDetail, result)
             })
             .catch(err => {
@@ -59,6 +62,7 @@ module.exports = {
     getById: (req, res) => {
         engineersModel.getById(req.params)
             .then(result => {
+		result[0].Photo = 'http://localhost:3003' + result[0].Photo
                 res.json(result)
             })
             .catch(err => {

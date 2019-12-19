@@ -3,6 +3,9 @@ module.exports = {
   getAll: (req, res) => {
     companiesModel.getCompanies()
       .then(result => {
+result.forEach((element, index) => {
+                    result[index].Logo = 'http://localhost:3003' + element.Logo
+                })
         res.json(result)
       })
       .catch(err => {
@@ -40,6 +43,7 @@ module.exports = {
   getById: (req, res) => {
     companiesModel.getById(req.params)
       .then(result => {
+result[0].Logo = 'http://localhost:3003' + result[0].Logo
         res.json(result)
       })
       .catch(err => {
