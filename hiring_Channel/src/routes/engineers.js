@@ -31,7 +31,7 @@ const upload = multer({
   }
 })
 Route
-  .get('/',  engineers.getAll)
+  .get('/', engineers.getAll)
   .post('/', (upload.single('Photo')), engineers.postEngineers)
   .get('/:id', engineers.getById)
   .put('/:id', (upload.single('Photo')), engineers.updateEngineering)

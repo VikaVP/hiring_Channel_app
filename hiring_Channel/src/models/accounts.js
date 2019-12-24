@@ -1,14 +1,11 @@
 // import config
-
 const conn = require('../config/db')
 module.exports = {
-    getAccounts: (search, limit, offset, order) => {
+    getAccounts: (s, page, limit, sort) => {
+        let offset = (page - 1) * limit
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM account'
-            if (search) {
-                query += ` WHERE username LIKE "%${search}%" LIMIT ${limit} OFFSET ${offset} ${order}`
-            }
-            conn.query(query += ` LIMIT ${limit} OFFSET ${offset} ${order}`, (err, result) => {
+            let query = `SELECT * FROM account WHERE Name LIKE '%${s}%' ORDER BY Name ${sort} LIMIT ${offset}, ${limit}`
+            conn.query(query, (err, result) => {
                 if (!err) {
                     resolve(result)
                 } else {

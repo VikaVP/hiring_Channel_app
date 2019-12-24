@@ -2,9 +2,10 @@
 
 const conn = require('../config/db')
 module.exports = {
-  getCompanies: () => {
+  getCompanies: (s, page, limit, sort) => {
+    let offset = (page - 1) * limit
     return new Promise((resolve, reject) => {
-      const query = 'SELECT * FROM companyData'
+      const query = `SELECT * FROM companyData WHERE Name LIKE '%${s}%' ORDER BY Name ${sort} LIMIT ${offset}, ${limit}`
       conn.query(query, (err, result) => {
         if (!err) {
           resolve(result)

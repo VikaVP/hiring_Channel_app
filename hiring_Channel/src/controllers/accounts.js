@@ -1,14 +1,13 @@
 require('dotenv/config')
-const { response } = require('../helpers/helper')
 const accountsModel = require('../models/accounts')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 module.exports = {
     getAll: (req, res) => {
-        const limit = req.query.limit
-        const offset = req.query.offset
-        const search = req.query.search
-        const order = req.query.order
-        accountsModel.getAccounts(search, limit, offset, order)
+        const s = req.query.s ? req.query.s : '' // to get query params '?' 
+        const page = req.query.page ? req.query.page : 1
+        const limit = req.query.limit ? req.query.limit : 10
+        const sort = req.query.sort ? req.query.sort : 'DESC'
+        accountsModel.getAccounts(s, page, limit, sort)
             .then(result => {
                 res.json(result)
             })
@@ -22,11 +21,15 @@ module.exports = {
             })
     },
     postAccounts: (req, res) => {
-        const salt = bcrypt.genSaltSync(10)
-        bcrypt.hash(req.body.password, salt, (err, hash) => {
-            const { username, email, password, role } = req.body
+        const { Name, email, password, role } = req.body
+        const salt = bcrypt.genSalt(10)
+        //const hashedPassword = bcrypt.hash(password, salt)
+
+        console.log(req.body, "cekkkk")
+        bcrypt.hash(password, 10, function (err, hash) {
+            // Store hash in your password DB.
             const data = {
-                username,
+                Name,
                 email,
                 password: hash,
                 role
@@ -48,6 +51,7 @@ module.exports = {
                         message: 'Error add account'
                     })
                 })
+
         })
     },
     getById: (req, res) => {
@@ -66,9 +70,9 @@ module.exports = {
     },
     updateAccounts: (req, res) => {
         const id = req.params.id
-        const { id, username, password, role } = req.body
+        const { Name, password, role } = req.body
         const data = {
-            id, username, password, role
+            id, Name, password, role
         }
         accountsModel.updateAccounts(data, id)
             .then(result => {

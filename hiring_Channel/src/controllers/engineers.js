@@ -1,8 +1,9 @@
 const engineersModel = require('../models/engineers')
 const misc = require('../helpers/misc')
+const bcrypt = require('bcrypt')
 module.exports = {
     getAll: (req, res) => {
-        const s = req.query.s ? req.query.s : '' // to get query params '?'
+        const s = req.query.s ? req.query.s : '' // to get query params '?' 
         const page = req.query.page ? req.query.page : 1
         const limit = req.query.limit ? req.query.limit : 10
         const sort = req.query.sort ? req.query.sort : 'DESC'
@@ -18,7 +19,7 @@ module.exports = {
             sortBy,
             prevLink: `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
             nextLink: req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') === -1 ?
-                `http://localhost:3003${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `http://localhost:3003${req.originalUrl + "&page=" + parseInt(nextPage)}` : `http://localhost:3000${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+                `http://localhost:3003${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `http://localhost:3003${req.originalUrl + "&page=" + parseInt(nextPage)}` : `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
 
         }
         //`http://localhost:3000${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
@@ -30,7 +31,7 @@ module.exports = {
                 result.forEach((element, index) => {
                     result[index].Photo = 'http://localhost:3003' + element.Photo
                 })
-                return misc.responsePagination(res, 200, false, 'Success get all Jobs', pageDetail, result)
+                return misc.responsePagination(res, 200, false, 'Success get all engineers', pageDetail, result)
             })
             .catch(err => {
                 console.log(err)
@@ -39,30 +40,36 @@ module.exports = {
     },
     postEngineers: (req, res) => {
         const Photo = '/images/' + req.file.filename
-        const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email, expected_salary } = req.body
-        const data = { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email, expected_salary, Photo }
-        engineersModel.addEngineers(data)
-            .then(result => {
-                res.status(200).json({
-                    status: 200,
-                    error: false,
-                    data,
-                    message: 'Success add new engineer'
+        const Date_created = new Date()
+        const Date_update = new Date()
+        // const DOB = null
+        const { Name, Description, Skill, Location, Showcase, email, expected_salary, password, DOB } = req.body
+        bcrypt.hash(password, 10, function (err, hash) {
+            const data = { Name, Description, Skill, Location, DOB, Showcase, Date_created, Date_update, email, expected_salary, Photo, password: hash }
+
+            engineersModel.addEngineers(data)
+                .then(result => {
+                    res.status(200).json({
+                        status: 200,
+                        error: false,
+                        data,
+                        message: 'Success add new engineer'
+                    })
                 })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(400).json({
-                    status: 400,
-                    error: true,
-                    message: 'Error add engineer'
+                .catch(err => {
+                    console.log(err)
+                    res.status(400).json({
+                        status: 400,
+                        error: true,
+                        message: 'Error add engineer'
+                    })
                 })
-            })
+        })
     },
     getById: (req, res) => {
         engineersModel.getById(req.params)
             .then(result => {
-		result[0].Photo = 'http://localhost:3003' + result[0].Photo
+                result[0].Photo = 'http://localhost:3003' + result[0].Photo
                 res.json(result)
             })
             .catch(err => {

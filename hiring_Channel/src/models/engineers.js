@@ -1,4 +1,4 @@
-// import config
+// import config 
 
 const conn = require('../config/db')
 module.exports = {
