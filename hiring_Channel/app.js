@@ -23,6 +23,6 @@ app.get('*', (req, res) => {
   res.send('404 not found')
 })
 // listen to connection with callback function
-app.listen(3003, function () {
-  console.log('Server is running on Port 3003')
+app.listen(8080, function () {
+  console.log('Server is running on Port 8080')
 })

@@ -1,3 +1,4 @@
+require('dotenv/config')
 const companiesModel = require('../models/companies')
 const misc = require('../helpers/misc')
 const bcrypt = require('bcrypt')
@@ -14,15 +15,15 @@ module.exports = {
       page,
       limit,
       sort,
-      prevLink: `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
+      prevLink: `${process.env.PORT_API1}}${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
       nextLink: req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') === -1 ?
-        `http://localhost:3003${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `http://localhost:3003${req.originalUrl + "&page=" + parseInt(nextPage)}` : `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+        `${process.env.PORT_API1}${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `${process.env.PORT_API1}${req.originalUrl + "&page=" + parseInt(nextPage)}` : `${process.env.PORT_API1}${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
 
     }
     companiesModel.getCompanies(s, page, limit, sort)
       .then(result => {
         result.forEach((element, index) => {
-          result[index].Logo = 'http://localhost:3003' + element.Logo
+          result[index].Logo = `${process.env.PORT_API1}` + element.Logo
         })
         return misc.responsePagination(res, 200, false, 'Success get all Companies', pageDetail, result)
       })
@@ -58,7 +59,7 @@ module.exports = {
   getById: (req, res) => {
     companiesModel.getById(req.params)
       .then(result => {
-        result[0].Logo = 'http://localhost:3003' + result[0].Logo
+        result[0].Logo = `${process.env.PORT_API1}` + result[0].Logo
         res.json(result)
       })
       .catch(err => {

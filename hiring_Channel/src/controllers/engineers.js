@@ -17,9 +17,9 @@ module.exports = {
             limit,
             sort,
             sortBy,
-            prevLink: `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
+            prevLink: `${process.env.PORT_API1}${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
             nextLink: req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') === -1 ?
-                `http://localhost:3003${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `http://localhost:3003${req.originalUrl + "&page=" + parseInt(nextPage)}` : `http://localhost:3003${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+                `${process.env.PORT_API1}${req.originalUrl + "?page=" + parseInt(nextPage)}` : req.originalUrl.indexOf('page') === -1 && req.originalUrl.indexOf('?') > -1 ? `${process.env.PORT_API1}${req.originalUrl + "&page=" + parseInt(nextPage)}` : `${process.env.PORT_API1}${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
 
         }
         //`http://localhost:3000${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
@@ -29,7 +29,7 @@ module.exports = {
         engineersModel.getEngineers(s, page, limit, sort, sortBy)
             .then(result => {
                 result.forEach((element, index) => {
-                    result[index].Photo = 'http://localhost:3003' + element.Photo
+                    result[index].Photo = `${process.env.PORT_API1}` + element.Photo
                 })
                 return misc.responsePagination(res, 200, false, 'Success get all engineers', pageDetail, result)
             })
@@ -69,7 +69,7 @@ module.exports = {
     getById: (req, res) => {
         engineersModel.getById(req.params)
             .then(result => {
-                result[0].Photo = 'http://localhost:3003' + result[0].Photo
+                result[0].Photo = `${process.env.PORT_API1}` + result[0].Photo
                 res.json(result)
             })
             .catch(err => {
