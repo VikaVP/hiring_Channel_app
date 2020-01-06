@@ -22,9 +22,6 @@ module.exports = {
     }
     companiesModel.getCompanies(s, page, limit, sort)
       .then(result => {
-        result.forEach((element, index) => {
-          result[index].Logo = `${process.env.PORT_API1}` + element.Logo
-        })
         return misc.responsePagination(res, 200, false, 'Success get all Companies', pageDetail, result)
       })
       .catch(err => {
@@ -33,7 +30,7 @@ module.exports = {
       })
   },
   postCompanies: (req, res) => {
-    const Logo = '/images/' + req.file.filename
+    const Logo = typeof req.file === 'undefined' ? '' : `${process.env.PORT_API1}` + '/images/' + req.file.filename
     const { Name, Location, Description, email, password } = req.body
     bcrypt.hash(password, 10, function (err, hash) {
       const data = { Name, Logo, Location, Description, email, password: hash }
@@ -59,7 +56,6 @@ module.exports = {
   getById: (req, res) => {
     companiesModel.getById(req.params)
       .then(result => {
-        result[0].Logo = `${process.env.PORT_API1}` + result[0].Logo
         res.json(result)
       })
       .catch(err => {
@@ -72,7 +68,7 @@ module.exports = {
       })
   },
   updateCompanies: (req, res) => {
-    const Logo = '/images/' + req.file.filename
+    const Logo = typeof req.file === 'undefined' ? null : req.body.Logo ? req.body.Logo : `${process.env.PORT_API1}` + '/images/' + req.file.filename
     const company_id = req.params.id
     const { id, Name, Location, Description, email } = req.body
     const data = {

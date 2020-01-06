@@ -4,9 +4,9 @@ const JWT = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 module.exports = {
     getLogin: (req, res) => {
-        const { role, Name } = req.body
+        const { role, email } = req.body
         if (role === 'engineer') {
-            loginModel.getLogin(Name)
+            loginModel.getLogin(email)
                 .then(async result => {
                     console.log(result)
                     if (!result.length) {
@@ -54,7 +54,7 @@ module.exports = {
                     })
                 })
         } else if (role === 'company') {
-            loginModel.getLoginCompany(Name)
+            loginModel.getLoginCompany(email)
                 .then(async result => {
                     console.log(result)
                     if (!result.length) {

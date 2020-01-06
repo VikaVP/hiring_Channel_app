@@ -1,9 +1,9 @@
 
 const conn = require('../config/db')
 module.exports = {
-    getLogin: (Name) => {
+    getLogin: (email) => {
         return new Promise((resolve, reject) => {
-            conn.query(`SELECT id, Name, password FROM engineerData WHERE Name = "${Name}"`, (err, result) => {
+            conn.query(`SELECT id, Name, password FROM engineerData WHERE email = "${email}"`, (err, result) => {
                 if (!err) {
                     resolve(result)
                 } else {
@@ -13,9 +13,9 @@ module.exports = {
         })
     },
 
-    getLoginCompany: (Name) => {
+    getLoginCompany: (email) => {
         return new Promise((resolve, reject) => {
-            conn.query(`SELECT id, Name, password FROM companyData WHERE Name = "${Name}"`, (err, result) => {
+            conn.query(`SELECT id, Name, password FROM companyData WHERE email = "${email}"`, (err, result) => {
                 if (!err) {
                     resolve(result)
                 } else {

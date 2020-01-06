@@ -28,9 +28,9 @@ module.exports = {
         // call redis for selected key
         engineersModel.getEngineers(s, page, limit, sort, sortBy)
             .then(result => {
-                result.forEach((element, index) => {
-                    result[index].Photo = `${process.env.PORT_API1}` + element.Photo
-                })
+                //result.forEach((element, index) => {
+                   // result[index].Photo = `${process.env.PORT_API1}` + element.Photo
+               // })
                 return misc.responsePagination(res, 200, false, 'Success get all engineers', pageDetail, result)
             })
             .catch(err => {
@@ -39,7 +39,7 @@ module.exports = {
             })
     },
     postEngineers: (req, res) => {
-        const Photo = '/images/' + req.file.filename
+        const Photo = typeof req.file === 'undefined' ? '' : `${process.env.PORT_API1}` + '/images/' + req.file.filename
         const Date_created = new Date()
         const Date_update = new Date()
         // const DOB = null
@@ -69,7 +69,7 @@ module.exports = {
     getById: (req, res) => {
         engineersModel.getById(req.params)
             .then(result => {
-                result[0].Photo = `${process.env.PORT_API1}` + result[0].Photo
+                //result[0].Photo = `${process.env.PORT_API1}` + result[0].Photo
                 res.json(result)
             })
             .catch(err => {
@@ -82,7 +82,7 @@ module.exports = {
             })
     },
     updateEngineering: (req, res) => {
-        const Photo = '/images/' + req.file.filename
+        const Photo = typeof req.file === 'undefined' ? null : req.body.Photo ? req.body.Photo : `${process.env.PORT_API1}` + '/images/' + req.file.filename
         const engineer_id = req.params.id
         const date_update = new Date()
         const { id, Name, Description, Skill, Location, DOB, Showcase, Date_created, email, expected_salary } = req.body
