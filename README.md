@@ -109,9 +109,9 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@vika_vp](vikavp0@gmail.com) - email@example.com
+email me - [@vika_vp](vikavp0@gmail.com) - vikavp0@gmail.com
 
-Project Link: [https://github.com/VikaVP/hiring_Channel_app](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/VikaVP/hiring_Channel_app](https://github.com/VikaVP/hiring_Channel_app)
 
 
 
