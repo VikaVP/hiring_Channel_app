@@ -5,12 +5,14 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
 <br />
 <p align="center">
 
   <h3 align="center">Hiring Channel App Backend</h3>
-
+  <p align="center">
+    [![Express.js](https://img.shields.io/badge/Express.js-4.x-orange.svg?style=rounded-square)](https://expressjs.com/en/starter/installing.html)
+    [![Node.js](https://img.shields.io/badge/Node.js-v.10.16-green.svg?style=rounded-square)](https://nodejs.org/)
+  </p>
   <p align="center">
     <br />
     <a href="https://github.com/VikaVP/hiring_Channel_app"><strong>Explore the docs »</strong></a>
@@ -24,62 +26,66 @@
   </p>
 </p>
 
-
-
 <!-- TABLE OF CONTENTS -->
+
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Roadmap](#roadmap)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
-
-
+- [About the Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+- [Roadmap](#roadmap)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
 
+## About The Project
 
 This project is a project for the backend hiring channel that contains restful processing of fire created with MySQL.
 
 ### Built With
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [React JS](https://reactjs.org/docs/getting-started.html)
-* [Express JS](https://expressjs.com/)
-* [JWT](https://jwt.io/)
 
-
+- [React JS](https://reactjs.org/docs/getting-started.html)
+- [Express JS](https://expressjs.com/)
+- [JWT](https://jwt.io/)
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To run Hiring Channel App, follow these steps:
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
+```
+- open your terminal
+- git clone https://github.com/VikaVP/hiring_Channel_app.git
+- cd hiring-app
+- npm install
+- create database and import from .sql file in this project
+- cp .env.example .env
+- open .env file and fill the requirement
+- npm run start
+- Open Postman desktop application or Chrome web app extension that has installed before
+- Choose HTTP Method and enter request url.(ex. localhost:3000/app/v1)
+- You can see all the end point in routes folder
 ```
 
 ### Installation
 
 1. Clone the repo
+
 ```sh
-git clone https://github.com/your_username_/Project-Name.git
+git clone https://github.com/VikaVP/hiring_Channel_app.git
 ```
+
 2. Install NPM packages
+
 ```sh
 npm install
 ```
+
 3. Enter your API in `config/db.js`
-```
+
 ```
 
 
@@ -109,7 +115,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-email mme - [@vika_vp](vikavp0@gmail.com) - vikavp0@gmail.com
+email me - [@vika_vp](vikavp0@gmail.com) - vikavp0@gmail.com
 
 Project Link: [https://github.com/VikaVP/hiring_Channel_app](https://github.com/VikaVP/hiring_Channel_app)
 
@@ -128,9 +134,4 @@ Project Link: [https://github.com/VikaVP/hiring_Channel_app](https://github.com/
 * [Sticky Kit](http://leafo.net/sticky-kit)
 * [JVectorMap](http://jvectormap.com)
 * [Font Awesome](https://fontawesome.com)
-
-
-
-
-
-
+```
